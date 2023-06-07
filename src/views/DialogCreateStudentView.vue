@@ -2,8 +2,8 @@
     <v-row justify="center">
         <v-dialog v-model="dialog" persistent width="1024">
             <template v-slot:activator="{ props }">
-                <v-btn variant="plain" icon class="mr-2" v-bind="props">
-                    <v-icon icon="mdi-pencil" ></v-icon>
+                <v-btn v-bind="props" prepend-icon="mdi-account-plus" color="primary" variant="outlined" class="mb-2">
+                    Criar Estudante
                 </v-btn>
             </template>
             <v-card>
@@ -14,15 +14,15 @@
                     <v-container>
                         <v-row>
                             <v-col cols="12" sm="12">
-                                <v-text-field label="Nome" v-model="localStudent.name" variant="outlined" required></v-text-field>
+                                <v-text-field label="Nome" v-model="student.name" fast-fail @submit.prevent :rules="firstNameRules" variant="outlined" required></v-text-field>
                             </v-col>
   
                             <v-col cols="12" sm="6">
-                                <v-text-field label="Data de Nacimento*" v-model="localStudent.birthDate" variant="outlined" required></v-text-field>
+                                <v-text-field label="Data de Nacimento*" v-model="student.birthDate" variant="outlined" required></v-text-field>
                             </v-col>
                             
                             <v-col cols="12" sm="6">
-                                <v-text-field label="CPF" v-model="localStudent.cpf" variant="outlined" required></v-text-field>
+                                <v-text-field label="CPF" v-model="student.cpf" variant="outlined" required></v-text-field>
                             </v-col>
 
                             <v-divider v-divider :thickness="2" color="info"></v-divider>
@@ -32,15 +32,15 @@
                             </v-col>
 
                             <v-col cols="6" sm="6">
-                                <v-text-field label="Rua/Avenida" v-model="localStudent.address.road" variant="outlined" required></v-text-field>
+                                <v-text-field label="Rua/Avenida" v-model="student.address.road" variant="outlined" required></v-text-field>
                             </v-col>
 
                             <v-col cols="6" sm="6">
-                                <v-text-field label="Bairro" v-model="localStudent.address.district" variant="outlined" required></v-text-field>
+                                <v-text-field label="Bairro" v-model="student.address.district" variant="outlined" required></v-text-field>
                             </v-col>
 
                             <v-col cols="6" sm="6">
-                                <v-text-field label="Cidade" v-model="localStudent.address.city" variant="outlined" required></v-text-field>
+                                <v-text-field label="Cidade" v-model="student.address.city" variant="outlined" required></v-text-field>
                             </v-col>
 
                             <v-col cols="6" sm="6">
@@ -52,16 +52,16 @@
                                         'Rio Grande do Norte', 'Rio Grande do Sul', 'Rondônia', 'Roraima', 'Santa Catarina', 'São Paulo', 'Sergipe', 'Tocantins'
                                     ]"
                                     variant="outlined"
-                                    v-model="localStudent.address.state"
+                                    v-model="student.address.state"
                                     ></v-select>
                             </v-col>
 
                             <v-col cols="6" sm="6">
-                                <v-text-field label="Número" v-model="localStudent.address.number" variant="outlined" required></v-text-field>
+                                <v-text-field label="Número" v-model="student.address.number" variant="outlined" required></v-text-field>
                             </v-col>
 
                             <v-col cols="6" sm="6">
-                                <v-text-field label="Complemento" v-model="localStudent.address.complement" variant="outlined" required></v-text-field>
+                                <v-text-field label="Complemento" v-model="student.address.complement" variant="outlined" required></v-text-field>
                             </v-col>
                         </v-row>
                     </v-container>
@@ -73,8 +73,8 @@
                     <v-btn color="blue-darken-1" variant="text" @click="dialog = false">
                         Fechar
                     </v-btn>
-                    <v-btn color="blue-darken-1" variant="text" @click="handleEdit()">
-                        Editar
+                    <v-btn color="blue-darken-1" variant="text" @click="handleCreate()">
+                        Criar
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -86,20 +86,36 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-    name: 'DialogEditStudentView',
-    props: ['student'],
+    name: 'DialogCreateStudentView',
+    props: ['students'],
     data: () => {
         return {
             dialog: false,
-            localStudent: {}
+            student: {
+                name: '',
+                birthDate: '',
+                cpf: '',
+                address: {
+                    road: '',
+                    district: '',
+                    city: '',
+                    state: '',
+                    number: '',
+                    complement: ''
+                }
+            },
+            firstNameRules: [
+                value => {
+                    if (value?.length > 3) return true
+
+                    return 'O nome deve ter pelo menos 3 caracteres.'
+                },
+            ],
         }
     },
-    created() {
-        this.localStudent = { ...this.student };
-    },
     methods: {
-        handleEdit() {
-            this.$store.commit('editStudent', this.localStudent);
+        handleCreate() {
+            this.$store.commit('createStudent', this.student);
             this.dialog = false;
         }
     }

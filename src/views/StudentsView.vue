@@ -3,11 +3,19 @@
         <v-layout>
             <v-app-bar flat class="bg-black border-b" title="Application bar"></v-app-bar>
             <v-main style="height: 100vh;">
-                <v-btn prepend-icon="mdi-account-plus" color="primary" variant="outlined" class="mb-2">
-                    Criar Estudante
-                </v-btn>
+                <v-card-title>
+                    <v-text-field color="primary" variant="outlined" append-icon="mdi-magnify" label="Buscar Estudante" single-line hide-details></v-text-field>
+                </v-card-title>
 
-                <v-table fixed-header height="80vh" class="py-1 px-5">
+                <v-card-title>
+                    <v-card-title>
+                        <span class="text-h5 d-inline">Estudante</span>
+                    </v-card-title>
+
+                        <DialogCreateStudentView :students="this.$store.state.students" class="float-left ma-5"></DialogCreateStudentView>
+                </v-card-title>
+
+                <v-table fixed-header height="80vh" class="px-5">
                     <thead>
                         <tr>
                             <th class="text-left">Matrícula</th>
@@ -18,17 +26,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="student in students" :key="student.registry">
+                        <tr v-for="student in this.$store.state.students" :key="student.id">
                             <td>{{ student.id }}</td>
                             <td>{{ student.name }}</td>
                             <td>{{ student.birthDate }}</td>
                             <td>{{ student.cpf }}</td>
                             <td>
-                                <DialogEditStudent class="d-inline" :student="student"/>
+                                <DialogEditStudentView class="d-inline" :student="student"/>
 
-                                <v-btn variant="plain" icon>
-                                    <v-icon icon="mdi-delete"></v-icon>
-                                </v-btn>
+                                <DialogDeleteStudentView class="d-inline" :id="student.id"/>
                             </td>
                         </tr>
                     </tbody>
@@ -40,23 +46,19 @@
 
 <script>
 import { defineComponent } from 'vue';
-import DialogEditStudent from './DialogEditStudentView.vue';
-import axios from 'axios';
+import DialogCreateStudentView from './DialogCreateStudentView.vue';
+import DialogEditStudentView from './DialogEditStudentView.vue';
+import DialogDeleteStudentView from './DialogDeleteStudentView.vue';
 
 export default defineComponent({
     name: 'StudentsView',
     components: {
-        DialogEditStudent,
+        DialogEditStudentView,
+        DialogCreateStudentView,
+        DialogDeleteStudentView
     },
     data() {
-        return {
-            teste: null,
-            students: []
-        }
-    },
-    async created() {
-        let response = await axios.get('http://localhost:3000/api/student');
-        this.students = response.data.data;
+
     },
     methods: {
         openModal() {
