@@ -7,7 +7,7 @@
                 </template>
             </v-app-bar>
 
-            <v-main style="height: 100vh;">
+            <v-main class="overflow-auto h-screen">
                 <v-card-title>
                     <DialogCreateStudentView :students="this.$store.state.students" class="float-left ma-4" />
                 </v-card-title>

@@ -46,6 +46,7 @@
 
                                 <v-col cols="6" sm="6">
                                     <v-select
+                                        :rules="[rules.required]"
                                         label="Estado"
                                         :items="[
                                             'Acre', 'Alagoas', 'Amapá', 'Amazonas', 'Bahia', 'Ceará', 'Distrito Federal', 'Espirito Santo', 'Goiás', 'Maranhão',
@@ -62,7 +63,7 @@
                                 </v-col>
 
                                 <v-col cols="6" sm="6">
-                                    <v-text-field :rules="[rules.required]" label="Complemento" v-model="localStudent.address.complement" variant="outlined" required></v-text-field>
+                                    <v-text-field label="Complemento" v-model="localStudent.address.complement" variant="outlined" required></v-text-field>
                                 </v-col>
                             </v-row>
                         </v-form>

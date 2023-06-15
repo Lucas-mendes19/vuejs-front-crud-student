@@ -55,7 +55,7 @@
                                         'Acre', 'Alagoas', 'Amapá', 'Amazonas', 'Bahia', 'Ceará', 'Distrito Federal', 'Espirito Santo', 'Goiás', 'Maranhão',
                                         'Mato Grosso do Sul', 'Mato Grosso', 'Minas Gerais', 'Pará', 'Paraíba', 'Paraná', 'Pernambuco', 'Piauí', 'Rio de Janeiro',
                                         'Rio Grande do Norte', 'Rio Grande do Sul', 'Rondônia', 'Roraima', 'Santa Catarina', 'São Paulo', 'Sergipe', 'Tocantins'
-                                    ]" variant="outlined" v-model="student.address.state"></v-select>
+                                    ]" :rules="[rules.required]" variant="outlined" v-model="student.address.state"></v-select>
                                 </v-col>
 
                                 <v-col cols="6" sm="6">
@@ -65,7 +65,7 @@
 
                                 <v-col cols="6" sm="6">
                                     <v-text-field label="Complemento" v-model="student.address.complement"
-                                        :rules="[rules.required]"  variant="outlined" required></v-text-field>
+                                        variant="outlined" required></v-text-field>
                                 </v-col>
                             </v-row>
                         </v-form>
@@ -103,7 +103,7 @@ export default defineComponent({
                     road: '',
                     district: '',
                     city: '',
-                    state: 'Minas Gerais',
+                    state: null,
                     number: '',
                     complement: ''
                 }

@@ -10,13 +10,13 @@ export default createStore({
   },
   mutations: {
     setStudents(state) {
-        axios.get('http://localhost:3000/api/student')
+        axios.get('http://localhost:3000/api/students')
             .then(res => state.students = res.data.data)
             .catch(err => console.log(err))
     },
 
     createStudent(state, student) {
-      axios.post('http://localhost:3000/api/student', student)
+      axios.post('http://localhost:3000/api/students', student)
         .then((res) => state.students.push(res.data.data))
         .catch((err) => console.log(err))
     },
@@ -24,7 +24,7 @@ export default createStore({
     editStudent(state, student) {
         const id = student.id;
 
-        axios.put('http://localhost:3000/api/student/' + id, student)
+        axios.put('http://localhost:3000/api/students/' + id, student)
             .then((res) => {
                 let index = state.students.findIndex(item => item.id === id);  
                 state.students[index] = res.data.data; 
@@ -33,7 +33,7 @@ export default createStore({
     },
 
     deleteStudent(state, id) {
-        axios.delete('http://localhost:3000/api/student/' + id)
+        axios.delete('http://localhost:3000/api/students/' + id)
             .then(() => {
                 let filtred = state.students.filter(item => item.id !== id);  
                 state.students = filtred; 
